@@ -102,6 +102,14 @@ class BookAPITest {
         }
 
         @Test
+        fun `listArchivedBooks() returns books that have isBookArchived set to true`() {
+            assertEquals(0, popBooks!!.numberOfArchivedBooks())
+            val newBook = Book("Book1", 3, "Non-Fiction", true)
+            assertTrue(popBooks!!.add(newBook))
+            assertEquals(1 , popBooks!!.numberOfArchivedBooks())
+        }
+
+        @Test
         fun `numberOfArchivedBooks() returns the amount of books that are Archoved`() {
             assertEquals(0, popBooks!!.numberOfArchivedBooks())
             val newBook = Book("Book1", 3, "Non-Fiction", true)
@@ -125,12 +133,13 @@ class BookAPITest {
 
         @Test
         fun `listBooksBySelectedId returns no books when no books of that ID exist`() {
-            //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
+            //ID 2 books (1 Education), 1 book (2 Sports), none (3 Fiction), none (4 Other)
             assertEquals(3, popBooks!!.numberOfBooks())
             val priority2String = popBooks!!.listBooksBySelectedId(4).lowercase()
             assertTrue(priority2String.contains("no books"))
             assertTrue(priority2String.contains("4"))
         }
+
 
         /*@Test
         fun `listBooksBySelectedId returns all books that match that ID when books of that ID exist`() {
