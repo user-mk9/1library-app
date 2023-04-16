@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import persistence.XMLSerializer
 import java.io.File
 import java.util.*
 import kotlin.test.assertEquals
@@ -16,8 +17,8 @@ class BookAPITest {
     private var sampleBook1: Book? = null
     private var sampleBook2: Book? = null
     private var sampleBook3: Book? = null
-    private var popBooks: BookAPI? = BookAPI()
-    private var emptyBooks: BookAPI? = BookAPI()
+    private var popBooks: BookAPI? = BookAPI(XMLSerializer(File("books.xml")))
+    private var emptyBooks: BookAPI? = BookAPI(XMLSerializer(File("books.xml")))
 
     @BeforeEach
     fun setup() {
@@ -192,6 +193,47 @@ class BookAPITest {
             assertEquals("Updating Book3", popBooks!!.findBook(2)!!.bookTitle)
             assertEquals(4, popBooks!!.findBook(2)!!.bookId)
             assertEquals("Other", popBooks!!.findBook(2)!!.bookCategory)
+        }
+    }
+
+    @Nested
+    inner class PersistenceTests {
+
+        // ///////////XML FORMAT TESTS
+        @Test
+        fun `saving and loading an empty collection in XML doesn't crash app`() {
+            // Saving an empty books.XML file.
+            val storingBooks = BookAPI(XMLSerializer(File("books.xml")))
+            storingBooks.store()
+
+            // Loading the empty books.xml file into a new object
+            val loadedBooks = BookAPI(XMLSerializer(File("books.xml")))
+            loadedBooks.load()
+
+            // Comparing the source of the notes (storingBooks) with the XML loaded notes (loadedNotes)
+            assertEquals(0, storingBooks.numberOfBooks())
+            assertEquals(0, loadedBooks.numberOfBooks())
+            assertEquals(storingBooks.numberOfBooks(), loadedBooks.numberOfBooks())
+        }
+
+        @Test
+        fun `saving and loading an loaded collection in XML doesn't looese data`() {
+            // Storing 2 books to the books.XML file
+            val storingBooks = BookAPI(XMLSerializer(File("books.xml")))
+            storingBooks.add(sampleBook1!!)
+            storingBooks.add(sampleBook3!!)
+            storingBooks.store()
+
+            // Loading books.xml into a different collection
+            val loadedBooks = BookAPI(XMLSerializer(File("books.xml")))
+            loadedBooks.load()
+
+            // Comparing the source of the books (storingNotes) with the XML loaded notes (loadedBooks)
+            assertEquals(2, storingBooks.numberOfBooks())
+            assertEquals(2, loadedBooks.numberOfBooks())
+            assertEquals(storingBooks.numberOfBooks(), loadedBooks.numberOfBooks())
+            assertEquals(storingBooks.findBook(3), loadedBooks.findBook(3))
+            assertEquals(storingBooks.findBook(4), loadedBooks.findBook(4))
         }
     }
 }
