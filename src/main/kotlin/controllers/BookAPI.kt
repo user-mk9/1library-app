@@ -37,6 +37,9 @@ class BookAPI {
         return (index >= 0 && index < list.size)
     }
 
+    fun isValidIndex(index: Int) :Boolean{
+        return isValidListIndex(index, books);
+    }
     /*
    * First check if the Book arraylist is empty or not
    * Then loop through the ArrayList also checking the isBookArchived variable
@@ -133,5 +136,20 @@ class BookAPI {
         return if (isValidListIndex(indexToDelete, books)) {
             books.removeAt(indexToDelete)
         } else null
+    }
+
+    fun updateBook(indexToUpdate: Int, book: Book?): Boolean {
+        // find the book object by the index number
+        val foundBook = findBook(indexToUpdate)
+
+        // if the book exists, use the book details passed as parameters to update the found book in the ArrayList.
+        if ((foundBook != null) && (book != null)) {
+            foundBook.bookTitle = book.bookTitle
+            foundBook.bookId = book.bookId
+            foundBook.bookCategory = book.bookCategory
+            return true
+        }
+        // if the book was not found, return false, indicating that the update was not successful
+        return false
     }
 }

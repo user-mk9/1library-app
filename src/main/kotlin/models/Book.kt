@@ -1,8 +1,8 @@
 package models
 
-class Book(    val bookTitle: String,
-               val bookId: Int,
-               val bookCategory: String,
-               val isBookArchived: Boolean,) {
+class Book(    var bookTitle: String,
+               var bookId: Int,
+               var bookCategory: String,
+               var isBookArchived: Boolean,) {
 
 }
