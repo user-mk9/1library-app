@@ -2,8 +2,6 @@ package controllers
 
 import persistance.Serializer
 import models.Book
-import persistence.XMLSerializer
-
 
 class BookAPI(serializerType: Serializer) {
 

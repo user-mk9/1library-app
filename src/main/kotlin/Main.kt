@@ -1,6 +1,7 @@
 import controllers.BookAPI
 import models.Book
 import mu.KotlinLogging
+import persistence.JSONSerializer
 import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
@@ -11,14 +12,14 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 private val logger = KotlinLogging.logger {}
-private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
-// private val bookAPI = BookAPI(JSONSerializer(File("books.json")
+//private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
+private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
 fun main(args: Array<String>) {
     runMenu()
 }
 
 fun mainMenu(): Int {
-    return ScannerInput.readNextInt("""
+    return readNextInt("""
          > ——————————————————————————————————
          > |       LIBRARY MANAGER APP      |
          > ——————————————————————————————————

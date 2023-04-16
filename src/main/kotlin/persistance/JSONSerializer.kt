@@ -16,6 +16,7 @@ class JSONSerializer(private val file: File) : Serializer {
         val inputStream = xStream.createObjectInputStream(FileReader(file))
         val obj = inputStream.readObject() as Any
         inputStream.close()
+        println("load Successful to books.json")
         return obj
     }
 
@@ -25,5 +26,6 @@ class JSONSerializer(private val file: File) : Serializer {
         val outputStream = xStream.createObjectOutputStream(FileWriter(file))
         outputStream.writeObject(obj)
         outputStream.close()
+        println("Save Successful to books.json")
     }
 }
