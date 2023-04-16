@@ -21,4 +21,19 @@ class BookAPI {
             listOfBooks
         }
     }
+
+    fun numberOfBooks(): Int {
+        return books.size
+    }
+
+    fun findBook(index: Int): Book? {
+        return if (isValidListIndex(index, books)) {
+            books[index]
+        } else null
+    }
+
+    // method to check if an index is valid in a list.
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
+    }
 }
