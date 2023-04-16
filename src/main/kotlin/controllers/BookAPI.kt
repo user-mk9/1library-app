@@ -76,6 +76,26 @@ class BookAPI {
         }
     }
 
+    fun listBooksBySelectedId(Id: Int): String {
+        return if (books.isEmpty()) {
+            "No books stored"
+        } else {
+            var listOfBooks = ""
+            for (i in books.indices) {
+                if (books[i].bookId == Id) {
+                    listOfBooks +=
+                        """$i: ${books[i]}
+                        """.trimIndent()
+                }
+            }
+            if (listOfBooks.equals("")) {
+                "No books with Id: $Id"
+            } else {
+                "${listBooksBySelectedId(Id)} books with ID $Id: $listOfBooks"
+            }
+        }
+    }
+
     fun numberOfArchivedBooks(): Int {
         //return Books.stream().filter { obj: Book -> obj.isBookArchived }.count().toInt()
         var counter = 0
@@ -98,4 +118,14 @@ class BookAPI {
         return counter
     }
 
+    fun numberOfBooksById(Id: Int): Int {
+        //return books.stream().filter { p: Book -> p.bookId == Id }.count().toInt()
+        var counter = 0
+        for (book in books) {
+            if (book.bookId == Id) {
+                counter++
+            }
+        }
+        return counter
+    }
 }
