@@ -1,10 +1,24 @@
 package controllers
 
+import persistance.Serializer
 import models.Book
+import persistence.XMLSerializer
 
-class BookAPI {
+
+class BookAPI(serializerType: Serializer) {
 
     private var books = ArrayList<Book>()
+    private var serializer: Serializer = serializerType
+    // Load books
+    @Throws(Exception::class)
+    fun load() {
+        books = serializer.read() as ArrayList<Book>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(books)
+    }
 
     fun add(book: Book): Boolean {
         return books.add(book)
