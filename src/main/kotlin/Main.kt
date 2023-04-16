@@ -28,6 +28,7 @@ fun mainMenu(): Int {
          > |   2) List Books                |
          > |   3) Update a Book             |
          > |   4) Delete a Book             |
+         > |   5) Archive a Book            |
          > |   20) Save books               |
          > |   21) Load books               |
          > ——————————————————————————————————
@@ -44,6 +45,7 @@ fun runMenu() {
             2  -> listBooks()
             3  -> updateBook()
             4  -> deleteBook()
+            5  -> archiveBook()
             0  -> exitApp()
             20 -> save()
             21 -> load()
@@ -125,5 +127,22 @@ fun load() {
         bookAPI.load()
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
+    }
+}
+
+fun archiveBook() {
+    // only list active books, as we don't need to archive books that have been done so already
+    println(bookAPI.listActiveBooks())
+    if (bookAPI.numberOfActiveBooks() > 0) {
+        // The index of the book to be archived
+        var indexToArchive: Int = readNextInt("Please enter an index of the book: ")
+        if (bookAPI.isValidIndex(indexToArchive)) {
+            bookAPI.archiveBookByIndex(indexToArchive)
+            println("The book has successfully been archived")
+        } else {
+            println("Index of book is invalid")
+        }
+    } else {
+        println("There is no active notes")
     }
 }

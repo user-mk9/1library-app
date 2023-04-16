@@ -164,4 +164,16 @@ class BookAPI(serializerType: Serializer) {
         // if the book was not found, return false, indicating that the update was not successful
         return false
     }
+    /*
+Archive a book
+get index of book passed, get book by the index and set isBookArchived = true
+ */
+    fun archiveBookByIndex(indexToArchive: Int): Boolean {
+        val bookToArchive = findBook(indexToArchive)
+        if (bookToArchive != null) {
+            bookToArchive.isBookArchived = true
+            return true
+        }
+        return false
+    }
 }
