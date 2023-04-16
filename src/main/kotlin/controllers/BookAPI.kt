@@ -76,7 +76,7 @@ class BookAPI {
         }
     }
 
-    fun listBooksBySelectedID(Id: Int): String {
+    fun listBooksBySelectedId(Id: Int): String {
         return if (books.isEmpty()) {
             "No books stored"
         } else {
@@ -89,9 +89,9 @@ class BookAPI {
                 }
             }
             if (listOfBooks.equals("")) {
-                "No books with priority: $Id"
+                "No books with Id: $Id"
             } else {
-                "${listBooksBySelectedID(Id)} books with priority $Id: $listOfBooks"
+                "${listBooksBySelectedId(Id)} books with ID $Id: $listOfBooks"
             }
         }
     }
