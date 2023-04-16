@@ -1,0 +1,16 @@
+<object-stream>
+  <list>
+    <models.Book>
+      <bookTitle>Sample Book 1</bookTitle>
+      <bookId>1</bookId>
+      <bookCategory>Education</bookCategory>
+      <isBookArchived>false</isBookArchived>
+    </models.Book>
+    <models.Book>
+      <bookTitle>Sample Book 3</bookTitle>
+      <bookId>2</bookId>
+      <bookCategory>Mystery</bookCategory>
+      <isBookArchived>false</isBookArchived>
+    </models.Book>
+  </list>
+</object-stream>

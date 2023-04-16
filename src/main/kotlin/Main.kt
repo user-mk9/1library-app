@@ -1,22 +1,25 @@
 import controllers.BookAPI
 import models.Book
 import mu.KotlinLogging
+import persistence.JSONSerializer
+import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 import java.lang.System.exit
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 private val logger = KotlinLogging.logger {}
-private val bookAPI = BookAPI()
-
+//private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
+private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
 fun main(args: Array<String>) {
     runMenu()
 }
 
 fun mainMenu(): Int {
-    return ScannerInput.readNextInt("""
+    return readNextInt("""
          > ——————————————————————————————————
          > |       LIBRARY MANAGER APP      |
          > ——————————————————————————————————
@@ -25,6 +28,8 @@ fun mainMenu(): Int {
          > |   2) List Books                |
          > |   3) Update a Book             |
          > |   4) Delete a Book             |
+         > |   20) Save books               |
+         > |   21) Load books               |
          > ——————————————————————————————————
          > |   0) Exit                      |
          > ——————————————————————————————————
@@ -40,6 +45,8 @@ fun runMenu() {
             3  -> updateBook()
             4  -> deleteBook()
             0  -> exitApp()
+            20 -> save()
+            21 -> load()
             else -> println("Invalid option entered: ${option}")
         }
     } while (true)
@@ -103,4 +110,20 @@ fun deleteBook() {
 fun exitApp(){
     println("Exiting...bye")
     exit(0)
+}
+
+fun save() {
+    try {
+        bookAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        bookAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
 }
