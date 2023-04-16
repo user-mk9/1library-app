@@ -67,8 +67,19 @@ fun updateBook(){
     logger.info { "updateBook() function invoked" }
 }
 
-fun deleteBook(){
-    logger.info { "deleteBook() function invoked" }
+fun deleteBook() {
+    listBooks()
+    if (bookAPI.numberOfBooks() > 0) {
+        // only ask the user to choose the book to delete if books exist
+        val indexToDelete = readNextInt("Enter the index of the book to delete: ")
+        // pass the index of the book to BookAPI for deleting and check for success.
+        val bookToDelete = bookAPI.deleteBook(indexToDelete)
+        if (bookToDelete != null) {
+            println("Delete Successful! Deleted book: ${bookToDelete.bookTitle}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun exitApp(){
