@@ -36,4 +36,66 @@ class BookAPI {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    /*
+   * First check if the Book arraylist is empty or not
+   * Then loop through the ArrayList also checking the isBookArchived variable
+   * If isBookArchived is false then add that Book to the list that will be returned.
+   * */
+    fun listActiveBooks(): String {
+        return if (numberOfActiveBooks() == 0) {
+            "No active Books stored"
+        } else {
+            var listOfActiveBooks = ""
+            for (book in books) {
+                if (!book.isBookArchived) {
+                    listOfActiveBooks += "${books.indexOf(book)}: $book \n"
+                }
+            }
+            listOfActiveBooks
+        }
+    }
+
+    // method for listing all the Archived books
+    /*
+    * First check if the books arraylist is empty or not; if so return No books stored
+    * Then loop through the ArrayList also checking the isBookArchived variable
+    * If isBookArchived is true then add that book to the list that will be returned.
+    * */
+    fun listArchivedBooks(): String {
+        return if (numberOfArchivedBooks() == 0) {
+            "No archived Books stored"
+        } else {
+            var listOfArchivedBooks = ""
+            for (book in books) {
+                if (book.isBookArchived) {
+                    listOfArchivedBooks += "${books.indexOf(book)}: $books \n"
+                }
+            }
+            listOfArchivedBooks
+        }
+    }
+
+    fun numberOfArchivedBooks(): Int {
+        //return Books.stream().filter { obj: Book -> obj.isBookArchived }.count().toInt()
+        var counter = 0
+        for (book in books) {
+            if (book.isBookArchived) {
+                counter++
+            }
+        }
+        return counter
+    }
+
+    fun numberOfActiveBooks(): Int {
+        //return Books.stream().filter { p: Book -> !p.isBookArchived }.count().toInt()
+        var counter = 0
+        for (book in books) {
+            if (!book.isBookArchived) {
+                counter++
+            }
+        }
+        return counter
+    }
+
 }
