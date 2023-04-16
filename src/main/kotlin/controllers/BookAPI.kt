@@ -91,7 +91,7 @@ class BookAPI {
             if (listOfBooks.equals("")) {
                 "No books with Id: $Id"
             } else {
-                "${listBooksBySelectedId(Id)} books with ID $Id: $listOfBooks"
+                "${numberOfBooksById(Id)} books with ID $Id: $listOfBooks"
             }
         }
     }
@@ -127,5 +127,11 @@ class BookAPI {
             }
         }
         return counter
+    }
+
+    fun deleteBook(indexToDelete: Int): Book? {
+        return if (isValidListIndex(indexToDelete, books)) {
+            books.removeAt(indexToDelete)
+        } else null
     }
 }

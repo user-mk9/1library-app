@@ -2,12 +2,16 @@ package controllers
 
 import models.Book
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.io.File
+import java.util.*
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
+
 class BookAPITest {
     private var sampleBook1: Book? = null
     private var sampleBook2: Book? = null
@@ -111,6 +115,57 @@ class BookAPITest {
             assertEquals(4, popBooks!!.numberOfActiveBooks())
         }
 
+        @Test
+        fun `listBooksBySelectedId() returns no books when ArrayList is empty`() {
+            assertEquals(0, emptyBooks!!.numberOfBooks())
+            assertTrue(emptyBooks!!.listBooksBySelectedId(1).lowercase().contains("no books"))
+        }
 
+        @Test
+        fun `listBooksBySelectedId returns no books when no books of that ID exist`() {
+            //Priority 1 (1 note), 2 (none), 3 (1 note). 4 (2 notes), 5 (1 note)
+            assertEquals(3, popBooks!!.numberOfBooks())
+            val priority2String = popBooks!!.listBooksBySelectedId(4).lowercase()
+            assertTrue(priority2String.contains("no books"))
+            assertTrue(priority2String.contains("4"))
+        }
+
+        /*@Test
+        fun `listBooksBySelectedId returns all books that match that ID when books of that ID exist`() {
+            //ID 2 books (1 Education), 1 book (2 Sports), none (3 Fiction), none (4 Other)
+            assertEquals(3, popBooks!!.numberOfBooks())
+            val priority1String = popBooks!!.listBooksBySelectedId(1).lowercase(Locale.getDefault())
+            assertTrue(priority1String.contains("2 book"))
+            assertTrue(priority1String.contains("id 1"))
+            //assertTrue(priority1String.contains("sample Book 1"))
+            //assertTrue(priority1String.contains("sample book 2"))
+            assertFalse(priority1String.contains("sample book 3"))
+        }*/
+
+        @Test
+        fun `numberOfBooksById() returns the number of books based on the Id passed`() {
+            assertEquals(1, popBooks!!.numberOfBooksById(2))
+            val newBook = Book("Book1", 2, "Non-Fiction", false)
+            assertTrue(popBooks!!.add(newBook))
+            assertEquals(2, popBooks!!.numberOfBooksById(2))
+        }
+    }
+
+    @Nested
+    inner class DeleteBooks {
+
+        @Test
+        fun `deleting a book that does not exist returns null`() {
+            assertNull(emptyBooks!!.deleteBook(0))
+            assertNull(popBooks!!.deleteBook(-1))
+            assertNull(popBooks!!.deleteBook(7))
+        }
+
+        @Test
+        fun `deleting a book that exists delete and returns deleted object`() {
+            assertEquals(3, popBooks!!.numberOfBooks())
+            assertEquals(sampleBook3, popBooks!!.deleteBook(2))
+            assertEquals(2, popBooks!!.numberOfBooks())
+        }
     }
 }
