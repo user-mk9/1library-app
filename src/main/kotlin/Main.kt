@@ -1,5 +1,8 @@
+import mu.KotlinLogging
 import utils.ScannerInput
 import java.lang.System.exit
+
+private val logger = KotlinLogging.logger {}
 
 fun main(args: Array<String>) {
     runMenu()
@@ -36,19 +39,19 @@ fun runMenu() {
 }
 
 fun addBook(){
-    println("You chose Add Book")
+    logger.info { "addBook() function invoked" }
 }
 
 fun listBooks(){
-    println("You chose List Books")
+    logger.info { "listBooks() function invoked" }
 }
 
 fun updateBook(){
-    println("You chose Update Book")
+    logger.info { "updateBook() function invoked" }
 }
 
 fun deleteBook(){
-    println("You chose Delete Book")
+    logger.info { "deleteBook() function invoked" }
 }
 
 fun exitApp(){
