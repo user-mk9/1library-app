@@ -168,4 +168,30 @@ class BookAPITest {
             assertEquals(2, popBooks!!.numberOfBooks())
         }
     }
+
+    @Nested
+    inner class UpdatesBooks {
+
+        @Test
+        fun `updating a book that does not exist returns false`() {
+            kotlin.test.assertFalse(popBooks!!.updateBook(6, Book("Updating Book", 2, "Sport", false)))
+            kotlin.test.assertFalse(popBooks!!.updateBook(-1, Book("Updating Book", 2, "Sport", false)))
+            kotlin.test.assertFalse(emptyBooks!!.updateBook(0, Book("Updating Book", 2, "Sport", false)))
+        }
+
+        @Test
+        fun `updating a book that exists returns true and updates`() {
+            // check if the 3rd book exists and check the contents
+            assertEquals(sampleBook3, popBooks!!.findBook(2))
+            assertEquals("Sample Book 3", popBooks!!.findBook(2)!!.bookTitle)
+            assertEquals(2, popBooks!!.findBook(2)!!.bookId)
+            assertEquals("Mystery", popBooks!!.findBook(2)!!.bookCategory)
+
+            // update 3rd book with new info and ensure update is successful
+            assertTrue(popBooks!!.updateBook(2, Book("Updating Book3", 4, "Other", false)))
+            assertEquals("Updating Book3", popBooks!!.findBook(2)!!.bookTitle)
+            assertEquals(4, popBooks!!.findBook(2)!!.bookId)
+            assertEquals("Other", popBooks!!.findBook(2)!!.bookCategory)
+        }
+    }
 }

@@ -63,8 +63,26 @@ fun listBooks(){
     println(bookAPI.listAllBooks())
 }
 
-fun updateBook(){
-    logger.info { "updateBook() function invoked" }
+fun updateBook() {
+    listBooks()
+    if (bookAPI.numberOfBooks() > 0) {
+        // only ask the user to choose the note if notes exist
+        val indexToUpdate = readNextInt("Enter the index of the book to update: ")
+        if (bookAPI.isValidIndex(indexToUpdate)) {
+            val bookTitle = readNextLine("Enter a book title : ")
+            val bookId = readNextInt("Enter book ID (1(Education), 2(Sports), 3(Fiction), 4(Other)) : ")
+            val bookCategory = readNextLine("Enter the book category : ")
+
+            // pass the index of the book and the new book details to BookAPI for updating and check for success.
+            if (bookAPI.updateBook(indexToUpdate, Book(bookTitle, bookId, bookCategory, false))) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no notes for this index number")
+        }
+    }
 }
 
 fun deleteBook() {
