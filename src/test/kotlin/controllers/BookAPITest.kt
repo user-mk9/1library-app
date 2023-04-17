@@ -163,6 +163,38 @@ class BookAPITest {
     }
 
     @Nested
+    inner class CountingMethods {
+
+        @Test
+        fun numberOfBooksCalculatedCorrectly() {
+            assertEquals(3, popBooks!!.numberOfBooks())
+            assertEquals(0, emptyBooks!!.numberOfBooks())
+        }
+
+        @Test
+        fun numberOfArchivedBooksCalculatedCorrectly() {
+            assertEquals(0, popBooks!!.numberOfArchivedBooks())
+            assertEquals(0, emptyBooks!!.numberOfArchivedBooks())
+        }
+
+        @Test
+        fun numberOfActiveBooksCalculatedCorrectly() {
+            assertEquals(3, popBooks!!.numberOfActiveBooks())
+            assertEquals(0, emptyBooks!!.numberOfActiveBooks())
+        }
+
+        @Test
+        fun numberOfBooksByIDCalculatedCorrectly() {
+            assertEquals(2, popBooks!!.numberOfBooksById(1))
+            assertEquals(1, popBooks!!.numberOfBooksById(2))
+            assertEquals(0, popBooks!!.numberOfBooksById(3))
+            assertEquals(0, popBooks!!.numberOfBooksById(4))
+            assertEquals(0, popBooks!!.numberOfBooksById(5))
+            assertEquals(0, emptyBooks!!.numberOfBooksById(1))
+        }
+    }
+
+    @Nested
     inner class DeleteBooks {
 
         @Test
