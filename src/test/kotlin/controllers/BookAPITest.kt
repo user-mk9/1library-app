@@ -207,6 +207,29 @@ class BookAPITest {
     }
 
     @Nested
+    inner class ArchiveBooks {
+        @Test
+        fun `archiving a book that does not exist returns false`(){
+            assertFalse(popBooks!!.archiveBook(6))
+            assertFalse(popBooks!!.archiveBook(-1))
+            assertFalse(emptyBooks!!.archiveBook(0))
+        }
+
+        /*@Test
+        fun `archiving an already archived book returns false`(){
+            assertTrue(popBooks!!.findBook(2)!!.isBookArchived)
+            assertFalse(popBooks!!.archiveBook(2))
+        }*/
+
+        @Test
+        fun `archiving an active book that exists returns true and archives`() {
+            assertFalse(popBooks!!.findBook(1)!!.isBookArchived)
+            assertTrue(popBooks!!.archiveBook(1))
+            assertTrue(popBooks!!.findBook(1)!!.isBookArchived)
+        }
+    }
+
+    @Nested
     inner class PersistenceTests {
 
         // ///////////XML FORMAT TESTS
@@ -220,7 +243,7 @@ class BookAPITest {
             val loadedBooks = BookAPI(XMLSerializer(File("books.xml")))
             loadedBooks.load()
 
-            // Comparing the source of the notes (storingBooks) with the XML loaded notes (loadedNotes)
+            // Comparing the source of the books (storingBooks) with the XML loaded books (loadedBooks)
             assertEquals(0, storingBooks.numberOfBooks())
             assertEquals(0, loadedBooks.numberOfBooks())
             assertEquals(storingBooks.numberOfBooks(), loadedBooks.numberOfBooks())
@@ -238,7 +261,7 @@ class BookAPITest {
             val loadedBooks = BookAPI(XMLSerializer(File("books.xml")))
             loadedBooks.load()
 
-            // Comparing the source of the books (storingNotes) with the XML loaded notes (loadedBooks)
+            // Comparing the source of the books (storingBooks) with the XML loaded books (loadedBooks)
             assertEquals(2, storingBooks.numberOfBooks())
             assertEquals(2, loadedBooks.numberOfBooks())
             assertEquals(storingBooks.numberOfBooks(), loadedBooks.numberOfBooks())
@@ -275,7 +298,7 @@ class BookAPITest {
             val loadedBooks = BookAPI(JSONSerializer(File("books.json")))
             loadedBooks.load()
 
-            // Comparing the source of the books (storingBooks) with the json loaded books (loadedNotes)
+            // Comparing the source of the books (storingBooks) with the json loaded books (loadedBooks)
             assertEquals(2, storingBooks.numberOfBooks())
             assertEquals(2, loadedBooks.numberOfBooks())
             assertEquals(storingBooks.numberOfBooks(), loadedBooks.numberOfBooks())

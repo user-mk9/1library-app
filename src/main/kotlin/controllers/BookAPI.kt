@@ -168,7 +168,7 @@ class BookAPI(serializerType: Serializer) {
 Archive a book
 get index of book passed, get book by the index and set isBookArchived = true
  */
-    fun archiveBookByIndex(indexToArchive: Int): Boolean {
+    fun archiveBook(indexToArchive: Int): Boolean {
         val bookToArchive = findBook(indexToArchive)
         if (bookToArchive != null) {
             bookToArchive.isBookArchived = true

@@ -37,6 +37,24 @@ fun mainMenu(): Int {
          >   ==>> """.trimMargin(">"))
 }
 
+fun subMenu(): Int {
+    return readNextInt(
+        """ 
+         > —————————————————————————————————
+         > |        LIST BOOKS APP          |
+         > —————————————————————————————————
+         > | List Book SUB-MENU             |
+         > |   1) List all books            |
+         > |   2) List active books         |
+         > |   3) List archived books       |
+         > —————————————————————————————————
+         > |   0) Exit                      |
+         > —————————————————————————————————
+         >     Enter Option: """.trimMargin(">")
+
+    )
+}
+
 fun runMenu() {
     do {
         val option = mainMenu()
@@ -50,6 +68,19 @@ fun runMenu() {
             20 -> save()
             21 -> load()
             else -> println("Invalid option entered: ${option}")
+        }
+    } while (true)
+}
+
+fun listBooksSubmenu() {
+    do {
+        val option = subMenu()
+        when (option) {
+            1 -> listBooks()
+            2 -> listActiveBooks()
+            3 -> listArchivedBooks()
+            0 -> runMenu()
+            else -> println("Invalid option entered: $option")
         }
     } while (true)
 }
@@ -137,7 +168,7 @@ fun archiveBook() {
         // The index of the book to be archived
         var indexToArchive: Int = readNextInt("Please enter an index of the book: ")
         if (bookAPI.isValidIndex(indexToArchive)) {
-            bookAPI.archiveBookByIndex(indexToArchive)
+            bookAPI.archiveBook(indexToArchive)
             println("The book has successfully been archived")
         } else {
             println("Index of book is invalid")
@@ -145,4 +176,12 @@ fun archiveBook() {
     } else {
         println("There is no active notes")
     }
+}
+
+fun listActiveBooks() {
+    println(bookAPI.listActiveBooks())
+}
+
+fun listArchivedBooks() {
+    println(bookAPI.listArchivedBooks())
 }
