@@ -22,17 +22,11 @@ class BookAPI(serializerType: Serializer) {
         return books.add(book)
     }
 
-    fun listAllBooks(): String {
-        return if (books.isEmpty()) {
-            "No books stored"
-        } else {
-            var listOfBooks = ""
-            for (i in books.indices) {
-                listOfBooks += "${i}: ${books[i].bookTitle} \n"
-            }
-            listOfBooks
+    fun listAllBooks(): String =
+        if (books.isEmpty()) "no books stroed"
+        else books.joinToString(separator = "\n") { book ->
+            books.indexOf(book).toString() + ": " + book.bookTitle
         }
-    }
 
     fun numberOfBooks(): Int {
         return books.size
@@ -57,19 +51,10 @@ class BookAPI(serializerType: Serializer) {
    * Then loop through the ArrayList also checking the isBookArchived variable
    * If isBookArchived is false then add that Book to the list that will be returned.
    * */
-    fun listActiveBooks(): String {
-        return if (numberOfActiveBooks() == 0) {
-            "No active Books stored"
-        } else {
-            var listOfActiveBooks = ""
-            for (book in books) {
-                if (!book.isBookArchived) {
-                    listOfActiveBooks += "${books.indexOf(book)}: $book \n"
-                }
-            }
-            listOfActiveBooks
-        }
-    }
+    fun listActiveBooks(): String =
+        if (numberOfActiveBooks() == 0) "No active Book stored"
+        else books.joinToString(separator = "\n") { book ->
+            books.indexOf(book).toString() + ": " + book.bookTitle}
 
     // method for listing all the Archived books
     /*
@@ -77,19 +62,10 @@ class BookAPI(serializerType: Serializer) {
     * Then loop through the ArrayList also checking the isBookArchived variable
     * If isBookArchived is true then add that book to the list that will be returned.
     * */
-    fun listArchivedBooks(): String {
-        return if (numberOfArchivedBooks() == 0) {
-            "No archived Books stored"
-        } else {
-            var listOfArchivedBooks = ""
-            for (book in books) {
-                if (book.isBookArchived) {
-                    listOfArchivedBooks += "${books.indexOf(book)}: $books \n"
-                }
-            }
-            listOfArchivedBooks
-        }
-    }
+    fun listArchivedBooks(): String =
+        if (numberOfArchivedBooks() == 0) "No archived books stored"
+        else books.joinToString(separator = "\n") { book ->
+            books.indexOf(book).toString() + ": " + book.bookTitle}
 
     fun listBooksBySelectedId(Id: Int): String {
         return if (books.isEmpty()) {
