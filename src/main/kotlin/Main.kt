@@ -29,6 +29,7 @@ fun mainMenu(): Int {
          > |   3) Update a Book             |
          > |   4) Delete a Book             |
          > |   5) Archive a Book            |
+         > |   5) Search title of a Book    |
          > |   20) Save books               |
          > |   21) Load books               |
          > ——————————————————————————————————
@@ -64,6 +65,7 @@ fun runMenu() {
             3  -> updateBook()
             4  -> deleteBook()
             5  -> archiveBook()
+            6  -> SearchBooks()
             0  -> exitApp()
             20 -> save()
             21 -> load()
@@ -184,4 +186,14 @@ fun listActiveBooks() {
 
 fun listArchivedBooks() {
     println(bookAPI.listArchivedBooks())
+}
+
+fun SearchBooks() {
+    val searchTitle = readNextLine("Enter the book title to search by: ")
+    val searchResults = bookAPI.searchByTitle(searchTitle)
+    if (searchTitle.isEmpty()) {
+        println("No books found")
+    } else {
+        println(searchResults)
+    }
 }

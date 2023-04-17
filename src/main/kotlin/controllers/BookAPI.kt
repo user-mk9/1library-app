@@ -127,4 +127,7 @@ get index of book passed, get book by the index and set isBookArchived = true
         }
         return false
     }
+
+    fun searchByTitle(searchString: String) =
+        books.filter { book -> book.bookTitle.contains(searchString, ignoreCase = true) }
 }

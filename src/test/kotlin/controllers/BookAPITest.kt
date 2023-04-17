@@ -339,4 +339,19 @@ class BookAPITest {
             assertEquals(storingBooks.findBook(3), loadedBooks.findBook(3))
         }
     }
+
+    @Nested
+    inner class SearchBooks {
+
+        @Test
+        fun `search books by title returns no books as there are books with that title exist`() {
+            assertEquals(3, popBooks!!.numberOfBooks())
+            val searchResults = popBooks!!.searchByTitle("no results expected")
+            assertTrue(searchResults.isEmpty())
+
+            // searching empty list
+            assertEquals(0, emptyBooks!!.numberOfBooks())
+            assertTrue(emptyBooks!!.searchByTitle("").isEmpty())
+        }
+    }
 }
