@@ -18,15 +18,19 @@ class BookAPI(serializerType: Serializer) {
         serializer.write(books)
     }
 
+    private fun formatListString(booksToFormat : List<Book>) : String =
+        booksToFormat
+            .joinToString (separator = "\n") { book ->
+                books.indexOf(book).toString()  + ": " + book.bookTitle }
+
+
     fun add(book: Book): Boolean {
         return books.add(book)
     }
 
     fun listAllBooks(): String =
         if (books.isEmpty()) "no books stroed"
-        else books.joinToString(separator = "\n") { book ->
-            books.indexOf(book).toString() + ": " + book.bookTitle
-        }
+        else formatListString(books)
 
     fun numberOfBooks(): Int {
         return books.size
@@ -53,8 +57,7 @@ class BookAPI(serializerType: Serializer) {
    * */
     fun listActiveBooks(): String =
         if (numberOfActiveBooks() == 0) "No active Book stored"
-        else books.joinToString(separator = "\n") { book ->
-            books.indexOf(book).toString() + ": " + book.bookTitle}
+        else formatListString(books.filter { Book -> !Book.isBookArchived })
 
     // method for listing all the Archived books
     /*
@@ -64,29 +67,15 @@ class BookAPI(serializerType: Serializer) {
     * */
     fun listArchivedBooks(): String =
         if (numberOfArchivedBooks() == 0) "No archived books stored"
-        else books.joinToString(separator = "\n") { book ->
-            books.indexOf(book).toString() + ": " + book.bookTitle}
+        else formatListString(books.filter { book -> book.isBookArchived })
 
-    fun listBooksBySelectedId(Id: Int): String {
-        return if (books.isEmpty()) {
-            "No books stored"
-        } else {
-            var listOfBooks = ""
-            for (i in books.indices) {
-                if (books[i].bookId == Id) {
-                    listOfBooks +=
-                        """$i: ${books[i]}
-                        """.trimIndent()
-                }
-            }
-            if (listOfBooks.equals("")) {
-                "No books with Id: $Id"
-            } else {
-                "${numberOfBooksById(Id)} books with ID $Id: $listOfBooks"
-            }
+    fun listBooksBySelectedId(Id: Int): String =
+        if (books.isEmpty()) "No books stored"
+        else {
+            val listOfBooks = formatListString(books.filter { book -> book.bookId == Id })
+            if (listOfBooks.equals("")) "No books stored with Id: $Id"
+            else "${numberOfBooksById(Id)} books with Id $Id: $listOfBooks\""
         }
-    }
-
     fun numberOfArchivedBooks(): Int = books.count { book: Book -> book.isBookArchived }
 
     fun numberOfActiveBooks(): Int = books.count { book: Book -> !book.isBookArchived }
@@ -127,4 +116,8 @@ get index of book passed, get book by the index and set isBookArchived = true
         }
         return false
     }
+
+    fun searchByTitle(searchString: String) =
+       formatListString(
+           books.filter { book -> book.bookTitle.contains(searchString, ignoreCase = true) })
 }
