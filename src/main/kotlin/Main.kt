@@ -92,7 +92,7 @@ fun addBook(){
     val newAdd = bookAPI.add(Book(bookTitle, bookId, bookCategory, false))
 
     if(newAdd){
-        println("Add Sucessful")
+        println("Add Successful")
     }
     else{
         println("Add failed")
