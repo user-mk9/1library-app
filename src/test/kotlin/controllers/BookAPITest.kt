@@ -353,5 +353,27 @@ class BookAPITest {
             assertEquals(0, emptyBooks!!.numberOfBooks())
             assertTrue(emptyBooks!!.searchByTitle("").isEmpty())
         }
+
+        /*@Test
+        fun `search books by title returns books when books with that title exist`() {
+            assertEquals(3, popBooks!!.numberOfBooks())
+
+            // Searching a populated arraylist for a title that exists (case matches exactly)
+            var searchResults = popBooks!!.searchByTitle("Book 1")
+            assertTrue(searchResults.contains("Book 1"))
+            kotlin.test.assertFalse(searchResults.contains("Book 2"))
+
+            // Searching a populated arraylist for partial title that exists (case matches exactly)
+            searchResults = popBooks!!.searchByTitle("Book")
+            assertTrue(searchResults.contains("Book 1"))
+            assertTrue(searchResults.contains("Book 2"))
+            kotlin.test.assertFalse(searchResults.contains("Story"))
+
+            // Searching a populated arraylist for partial title that exists (case doesnt match)
+            searchResults = popBooks!!.searchByTitle("BOoK")
+            assertTrue(searchResults.contains("Book 1"))
+            assertTrue(searchResults.contains("Book 2"))
+            kotlin.test.assertFalse(searchResults.contains("Story"))
+        }*/
     }
 }
