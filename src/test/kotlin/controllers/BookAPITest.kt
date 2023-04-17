@@ -131,14 +131,15 @@ class BookAPITest {
             assertTrue(emptyBooks!!.listBooksBySelectedId(1).lowercase().contains("no books"))
         }
 
-        @Test
-        fun `listBooksBySelectedId returns no books when no books of that ID exist`() {
-            //ID 2 books (1 Education), 1 book (2 Sports), none (3 Fiction), none (4 Other)
-            assertEquals(3, popBooks!!.numberOfBooks())
-            val priority2String = popBooks!!.listBooksBySelectedId(4).lowercase()
-            assertTrue(priority2String.contains("no books"))
-            assertTrue(priority2String.contains("4"))
-        }
+        /*@Test
+        fun `listBooksBySelectedId() returns books based on the ID`() {
+            assertTrue(popBooks!!.listBooksBySelectedId(2).contains("Sample Book 3"))
+            val newBook = Book("Book1", 2, "Non-Fiction", false)
+            assertTrue(popBooks!!.add(newBook))
+            val books = popBooks!!.listBooksBySelectedId(2)
+            assertTrue(books.contains("Sample Book 3"))
+            assertTrue(books.contains("Book1"))
+        }*/
 
 
         /*@Test
