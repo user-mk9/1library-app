@@ -111,38 +111,13 @@ class BookAPI(serializerType: Serializer) {
         }
     }
 
-    fun numberOfArchivedBooks(): Int {
-        //return Books.stream().filter { obj: Book -> obj.isBookArchived }.count().toInt()
-        var counter = 0
-        for (book in books) {
-            if (book.isBookArchived) {
-                counter++
-            }
-        }
-        return counter
-    }
+    fun numberOfArchivedBooks(): Int = books.count { book: Book -> book.isBookArchived }
 
-    fun numberOfActiveBooks(): Int {
-        //return Books.stream().filter { p: Book -> !p.isBookArchived }.count().toInt()
-        var counter = 0
-        for (book in books) {
-            if (!book.isBookArchived) {
-                counter++
-            }
-        }
-        return counter
-    }
+    fun numberOfActiveBooks(): Int = books.count { book: Book -> !book.isBookArchived }
 
-    fun numberOfBooksById(Id: Int): Int {
-        //return books.stream().filter { p: Book -> p.bookId == Id }.count().toInt()
-        var counter = 0
-        for (book in books) {
-            if (book.bookId == Id) {
-                counter++
-            }
-        }
-        return counter
-    }
+    fun numberOfBooksById(Id: Int): Int =
+        if (books.isEmpty()) 0
+        else books.count { it.bookId == Id }
 
     fun deleteBook(indexToDelete: Int): Book? {
         return if (isValidListIndex(indexToDelete, books)) {
