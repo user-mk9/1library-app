@@ -2,24 +2,21 @@ import controllers.BookAPI
 import models.Book
 import mu.KotlinLogging
 import persistence.JSONSerializer
-import persistence.XMLSerializer
-import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 private val logger = KotlinLogging.logger {}
-//private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
+// private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
 private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
 fun main(args: Array<String>) {
     runMenu()
 }
 
 fun mainMenu(): Int {
-    return readNextInt("""
+    return readNextInt(
+        """
          > ——————————————————————————————————
          > |       LIBRARY MANAGER APP      |
          > ——————————————————————————————————
@@ -35,7 +32,8 @@ fun mainMenu(): Int {
          > ——————————————————————————————————
          > |   0) Exit                      |
          > ——————————————————————————————————
-         >   ==>> """.trimMargin(">"))
+         >   ==>> """.trimMargin(">")
+    )
 }
 
 fun subMenu(): Int {
@@ -60,16 +58,16 @@ fun runMenu() {
     do {
         val option = mainMenu()
         when (option) {
-            1  -> addBook()
-            2  -> listBooks()
-            3  -> updateBook()
-            4  -> deleteBook()
-            5  -> archiveBook()
-            6  -> SearchBooks()
-            0  -> exitApp()
+            1 -> addBook()
+            2 -> listBooksSubmenu()
+            3 -> updateBook()
+            4 -> deleteBook()
+            5 -> archiveBook()
+            6 -> SearchBooks()
+            0 -> exitApp()
             20 -> save()
             21 -> load()
-            else -> println("Invalid option entered: ${option}")
+            else -> println("Invalid option entered: $option")
         }
     } while (true)
 }
@@ -87,21 +85,20 @@ fun listBooksSubmenu() {
     } while (true)
 }
 
-fun addBook(){
+fun addBook() {
     val bookTitle = readNextLine("Enter the book title : ")
     val bookId = readNextInt("Enter book ID (1(Education), 2(Sports), 3(Fiction), 4(Other)) : ")
     val bookCategory = readNextLine("Enter the book category : ")
     val newAdd = bookAPI.add(Book(bookTitle, bookId, bookCategory, false))
 
-    if(newAdd){
+    if (newAdd) {
         println("Add Successful")
-    }
-    else{
+    } else {
         println("Add failed")
     }
 }
 
-fun listBooks(){
+fun listBooks() {
     println(bookAPI.listAllBooks())
 }
 
@@ -142,7 +139,7 @@ fun deleteBook() {
     }
 }
 
-fun exitApp(){
+fun exitApp() {
     println("Exiting...bye")
     exit(0)
 }

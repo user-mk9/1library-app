@@ -1,7 +1,7 @@
 package controllers
 
-import persistance.Serializer
 import models.Book
+import persistance.Serializer
 
 class BookAPI(serializerType: Serializer) {
 
@@ -18,11 +18,11 @@ class BookAPI(serializerType: Serializer) {
         serializer.write(books)
     }
 
-    private fun formatListString(booksToFormat : List<Book>) : String =
+    private fun formatListString(booksToFormat: List<Book>): String =
         booksToFormat
-            .joinToString (separator = "\n") { book ->
-                books.indexOf(book).toString()  + ": " + book.bookTitle }
-
+            .joinToString(separator = "\n") { book ->
+                books.indexOf(book).toString() + ": " + book.bookTitle
+            }
 
     fun add(book: Book): Boolean {
         return books.add(book)
@@ -47,8 +47,8 @@ class BookAPI(serializerType: Serializer) {
         return (index >= 0 && index < list.size)
     }
 
-    fun isValidIndex(index: Int) :Boolean{
-        return isValidListIndex(index, books);
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, books)
     }
     /*
    * First check if the Book arraylist is empty or not
@@ -118,6 +118,7 @@ get index of book passed, get book by the index and set isBookArchived = true
     }
 
     fun searchByTitle(searchString: String) =
-       formatListString(
-           books.filter { book -> book.bookTitle.contains(searchString, ignoreCase = true) })
+        formatListString(
+            books.filter { book -> book.bookTitle.contains(searchString, ignoreCase = true) }
+        )
 }
