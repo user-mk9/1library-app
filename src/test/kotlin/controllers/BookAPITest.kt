@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import java.io.File
-import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -106,7 +105,7 @@ class BookAPITest {
             assertEquals(0, popBooks!!.numberOfArchivedBooks())
             val newBook = Book("Book1", 3, "Non-Fiction", true)
             assertTrue(popBooks!!.add(newBook))
-            assertEquals(1 , popBooks!!.numberOfArchivedBooks())
+            assertEquals(1, popBooks!!.numberOfArchivedBooks())
         }
 
         @Test
@@ -140,7 +139,6 @@ class BookAPITest {
             assertTrue(books.contains("Sample Book 3"))
             assertTrue(books.contains("Book1"))
         }*/
-
 
         /*@Test
         fun `listBooksBySelectedId returns all books that match that ID when books of that ID exist`() {
@@ -242,7 +240,7 @@ class BookAPITest {
     @Nested
     inner class ArchiveBooks {
         @Test
-        fun `archiving a book that does not exist returns false`(){
+        fun `archiving a book that does not exist returns false`() {
             assertFalse(popBooks!!.archiveBook(6))
             assertFalse(popBooks!!.archiveBook(-1))
             assertFalse(emptyBooks!!.archiveBook(0))
