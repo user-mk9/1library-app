@@ -1,5 +1,6 @@
 package controllers
 
+import models.Author
 import models.Book
 import persistance.Serializer
 
@@ -18,11 +19,23 @@ class BookAPI(serializerType: Serializer) {
         serializer.write(books)
     }
 
-    private fun formatListString(booksToFormat: List<Book>): String =
-        booksToFormat
-            .joinToString(separator = "\n") { book ->
-                books.indexOf(book).toString() + ": " + book.bookTitle
+    private fun formatListString(booksToFormat: List<Book>): String {
+        val sb = StringBuilder()
+        for ((index, book) in booksToFormat.withIndex()) {
+            sb.append("Title: ${book.bookTitle}, ")
+            sb.append("ID: ${book.bookId}, ")
+            sb.append("Description: ${book.bookDesc}, ")
+            sb.append("Authors: ")
+            for ((authorIndex, author) in book.authors.withIndex()) {
+                sb.append("${author.authorName}")
+                if (authorIndex < book.authors.size - 1) {
+                    sb.append(", ")
+                }
             }
+            sb.append("\n")
+        }
+        return sb.toString()
+    }
 
     fun add(book: Book): Boolean {
         return books.add(book)
@@ -98,7 +111,7 @@ class BookAPI(serializerType: Serializer) {
         if ((foundBook != null) && (book != null)) {
             foundBook.bookTitle = book.bookTitle
             foundBook.bookId = book.bookId
-            foundBook.bookCategory = book.bookCategory
+            foundBook.bookDesc = book.bookDesc
             return true
         }
         // if the book was not found, return false, indicating that the update was not successful
@@ -108,7 +121,7 @@ class BookAPI(serializerType: Serializer) {
 Archive a book
 get index of book passed, get book by the index and set isBookArchived = true
  */
-    fun archiveBook(indexToArchive: Int): Boolean {
+    fun archiveBookByIndex(indexToArchive: Int): Boolean {
         val bookToArchive = findBook(indexToArchive)
         if (bookToArchive != null) {
             bookToArchive.isBookArchived = true
@@ -121,4 +134,14 @@ get index of book passed, get book by the index and set isBookArchived = true
         formatListString(
             books.filter { book -> book.bookTitle.contains(searchString, ignoreCase = true) }
         )
+
+    fun addAuthorToBook(bookTitle: String, author: Author) {
+        val book = books.find { it.bookTitle == bookTitle }
+        if (book != null) {
+            book.authors.add(author)
+            println("Author added successfully to book: $bookTitle")
+        } else {
+            println("Book not found with title: $bookTitle")
+        }
+    }
 }

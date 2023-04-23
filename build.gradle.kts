@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "1.7.10"
     // Plugin for Dokka - KDoc generating tool
     id("org.jetbrains.dokka") version "1.6.10"
     jacoco
@@ -27,6 +29,13 @@ dependencies {
 
     // For generating a Dokka Site from KDoc
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
+
+    // CBOR Gradle
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.0")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 tasks.test {
@@ -44,10 +53,6 @@ tasks.jar {
     from({
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
-}
-
-kotlin {
-    jvmToolchain(8)
 }
 
 application {

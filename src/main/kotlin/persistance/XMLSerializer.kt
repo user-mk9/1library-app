@@ -1,9 +1,8 @@
-package persistence
+package persistance
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
 import models.Book
-import persistance.Serializer
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -19,7 +18,6 @@ class XMLSerializer(private val file: File) : Serializer {
         val inputStream = xStream.createObjectInputStream(FileReader(file))
         val obj = inputStream.readObject() as Any
         inputStream.close()
-        println("Load Completed books.xml")
         return obj
     }
 
@@ -29,6 +27,5 @@ class XMLSerializer(private val file: File) : Serializer {
         val outputStream = xStream.createObjectOutputStream(FileWriter(file))
         outputStream.writeObject(obj)
         outputStream.close()
-        println("Save Successful to books.xml")
     }
 }

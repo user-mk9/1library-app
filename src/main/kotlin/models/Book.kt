@@ -1,8 +1,12 @@
 package models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 class Book(
     var bookTitle: String,
     var bookId: Int,
-    var bookCategory: String,
+    var bookDesc: String,
     var isBookArchived: Boolean,
+    val authors: MutableList<Author> = mutableListOf()
 )
