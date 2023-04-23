@@ -87,7 +87,7 @@ class BookAPI(serializerType: Serializer) {
         else {
             val listOfBooks = formatListString(books.filter { book -> book.bookId == Id })
             if (listOfBooks.equals("")) "No books stored with Id: $Id"
-            else "${numberOfBooksById(Id)} books with Id $Id: $listOfBooks\""
+            else "${numberOfBooksById(Id)} books with ID ($Id): \n $listOfBooks\""
         }
     fun numberOfArchivedBooks(): Int = books.count { book: Book -> book.isBookArchived }
 

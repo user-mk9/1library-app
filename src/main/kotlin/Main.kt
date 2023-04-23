@@ -50,7 +50,8 @@ fun subMenu(): Int {
          > |   3) List archived books       |
          > —————————————————————————————————
          > |        EXTRA FEATURES 
-         > |   4) Add author to book        |
+         > |   4) List books by ID          |
+         > |   5) Add author to book        |
          > |   0) Exit                      |
          > —————————————————————————————————
          >     Enter Option: """.trimMargin(">")
@@ -83,7 +84,8 @@ fun listBooksSubmenu() {
             1 -> listBooks()
             2 -> listActiveBooks()
             3 -> listArchivedBooks()
-            4 -> {
+            4 -> println(bookAPI.listBooksBySelectedId(readNextInt("Please Enter a Book ID to List: ")))
+            5 -> {
                 val bookTitle = readNextLine("Please enter the book title: ")
                 val authorName = readNextLine("Please enter the author name: ")
                 val author = Author(authorName) // Create an Author object with the entered author name
