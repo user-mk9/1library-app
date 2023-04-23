@@ -7,6 +7,8 @@ plugins {
     jacoco
     // Plugin for Ktlint
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    //Plugin for version checker
+    id("org.sirekanyan.version-checker") version "1.0.2"
     application
 }
 
@@ -53,6 +55,10 @@ tasks.jar {
     from({
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
+}
+
+versionCheckerOptions {
+    "com.squareup.okhttp3:logging-interceptor" lessThan "4.0"
 }
 
 application {

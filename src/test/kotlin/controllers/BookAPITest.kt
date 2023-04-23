@@ -337,7 +337,7 @@ class BookAPITest {
         }
 
         // ///////////CBOR FORMAT TESTS
-        /*@Test
+        @Test
         fun `saving and loading an empty collection in CBOR doesn't crash app`() {
             // Saving an empty books.cbor file.
             val storingBooks = BookAPI(CBORSerializer(File("books.cbor")))
@@ -371,7 +371,7 @@ class BookAPITest {
             assertEquals(storingBooks.numberOfBooks(), loadedBooks.numberOfBooks())
             assertEquals(storingBooks.findBook(0), loadedBooks.findBook(0))
             assertEquals(storingBooks.findBook(1), loadedBooks.findBook(1))
-        }*/
+        }
     }
 
     @Nested
