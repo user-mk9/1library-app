@@ -1,7 +1,8 @@
 import controllers.BookAPI
+import models.Author
 import models.Book
 import mu.KotlinLogging
-import persistence.JSONSerializer
+import persistance.CBORSerializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import java.io.File
@@ -9,7 +10,8 @@ import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
 // private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
-private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
+//private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
+private val bookAPI = BookAPI(CBORSerializer(File("books.cbor")))
 fun main(args: Array<String>) {
     runMenu()
 }
@@ -40,13 +42,15 @@ fun subMenu(): Int {
     return readNextInt(
         """ 
          > —————————————————————————————————
-         > |        LIST BOOKS APP          |
+         > |         LIST BOOKS APP         |
          > —————————————————————————————————
-         > | List Book SUB-MENU             |
+         > |       List Book SUB-MENU       |
          > |   1) List all books            |
          > |   2) List active books         |
          > |   3) List archived books       |
          > —————————————————————————————————
+         > |        EXTRA FEATURES 
+         > |   4) Add author to book        |
          > |   0) Exit                      |
          > —————————————————————————————————
          >     Enter Option: """.trimMargin(">")
@@ -79,6 +83,12 @@ fun listBooksSubmenu() {
             1 -> listBooks()
             2 -> listActiveBooks()
             3 -> listArchivedBooks()
+            4 -> {
+                val bookTitle = readNextLine("Please enter the book title: ")
+                val authorName = readNextLine("Please enter the author name: ")
+                val author = Author(authorName) // Create an Author object with the entered author name
+                bookAPI.addAuthorToBook(bookTitle, author)
+            }
             0 -> runMenu()
             else -> println("Invalid option entered: $option")
         }
@@ -88,8 +98,8 @@ fun listBooksSubmenu() {
 fun addBook() {
     val bookTitle = readNextLine("Enter the book title : ")
     val bookId = readNextInt("Enter book ID (1(Education), 2(Sports), 3(Fiction), 4(Other)) : ")
-    val bookCategory = readNextLine("Enter the book category : ")
-    val newAdd = bookAPI.add(Book(bookTitle, bookId, bookCategory, false))
+    val bookDesc = readNextLine("Enter the book Description : ")
+    val newAdd = bookAPI.add(Book(bookTitle, bookId, bookDesc, false))
 
     if (newAdd) {
         println("Add Successful")
@@ -110,10 +120,10 @@ fun updateBook() {
         if (bookAPI.isValidIndex(indexToUpdate)) {
             val bookTitle = readNextLine("Enter a book title : ")
             val bookId = readNextInt("Enter book ID (1(Education), 2(Sports), 3(Fiction), 4(Other)) : ")
-            val bookCategory = readNextLine("Enter the book category : ")
+            val bookDesc = readNextLine("Enter the book description : ")
 
             // pass the index of the book and the new book details to BookAPI for updating and check for success.
-            if (bookAPI.updateBook(indexToUpdate, Book(bookTitle, bookId, bookCategory, false))) {
+            if (bookAPI.updateBook(indexToUpdate, Book(bookTitle, bookId, bookDesc, false))) {
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -167,7 +177,7 @@ fun archiveBook() {
         // The index of the book to be archived
         var indexToArchive: Int = readNextInt("Please enter an index of the book: ")
         if (bookAPI.isValidIndex(indexToArchive)) {
-            bookAPI.archiveBook(indexToArchive)
+            bookAPI.archiveBookByIndex(indexToArchive)
             println("The book has successfully been archived")
         } else {
             println("Index of book is invalid")
