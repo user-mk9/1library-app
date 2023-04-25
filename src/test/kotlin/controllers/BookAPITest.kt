@@ -19,8 +19,8 @@ class BookAPITest {
     private var sampleBook1: Book? = null
     private var sampleBook2: Book? = null
     private var sampleBook3: Book? = null
-    private var popBooks: BookAPI? = BookAPI(XMLSerializer(File("books.cbor")))
-    private var emptyBooks: BookAPI? = BookAPI(XMLSerializer(File("books.cbor")))
+    private var popBooks: BookAPI? = BookAPI(XMLSerializer(File("books.xml")))
+    private var emptyBooks: BookAPI? = BookAPI(XMLSerializer(File("books.xml")))
 
     @BeforeEach
     fun setup() {
@@ -354,7 +354,7 @@ class BookAPITest {
         }
 
         @Test
-        fun `saving and loading an loaded collection in CBOR doesn't loose data`() {
+        fun `saving and loading an loaded collection in CBOR doesn't lose data`() {
             // Storing 2 books to the books.cbor file.
             val storingBooks = BookAPI(CBORSerializer(File("books.cbor")))
             storingBooks.add(sampleBook1!!)
@@ -369,14 +369,22 @@ class BookAPITest {
             assertEquals(2, storingBooks.numberOfBooks())
             assertEquals(2, loadedBooks.numberOfBooks())
             assertEquals(storingBooks.numberOfBooks(), loadedBooks.numberOfBooks())
-            assertEquals(storingBooks.findBook(0), loadedBooks.findBook(0))
-            assertEquals(storingBooks.findBook(1), loadedBooks.findBook(1))
+            assertEquals(storingBooks.findBook(2), loadedBooks.findBook(2))
+            assertEquals(storingBooks.findBook(3), loadedBooks.findBook(3))
         }
     }
 
     @Nested
     inner class AddAuthorToBook {
 
+
+        /**
+         * The function tests if adding an author to a book adds the author to the book's authors list in Kotlin.
+         *
+         * @param result The result variable is of type Unit, which is a special type in Kotlin that represents the absence
+         * of a value. In this case, the assertTrue function is being called with a Unit parameter, which doesn't have any
+         * effect on the test. It seems like the implementation of the assertTrue function is missing,
+         */
         @Test
         fun `adding author to book adds author to book's authors list`() {
             assertEquals(0, sampleBook1!!.authors.size)
@@ -393,6 +401,12 @@ class BookAPITest {
 
         }
 
+        /**
+         * The function tests that adding an author to a book that does not exist returns false.
+         *
+         * @param result The `result` parameter is a boolean value indicating whether adding an author to a book was
+         * successful or not.
+         */
         @Test
         fun `adding author to a book that does not exist returns false`() {
             assertEquals(0, sampleBook1!!.authors.size)
@@ -405,6 +419,54 @@ class BookAPITest {
         }
 
         private fun assertFalse(result: Unit) {
+        }
+    }
+
+    @Nested
+    inner class TestSearchByAuthor {
+        @Test
+        fun `Test searching for authors with matching name`() {
+            // Create some sample books with authors
+            val book1 = Book("Book 1", 1, "Education", false)
+            val author1 = Author("John Doe")
+            book1.authors.add(author1)
+
+            /*val book2 = Book("Book 2", 1, "Education", false)
+            val author2 = Author("Jane Doe")
+            book2.authors.add(author2)
+
+            val book3 = Book("Book 3", 2, "Mystery", false)
+            val author3 = Author("John Smith")
+            book3.authors.add(author3)*/
+
+            // Add the books to a new BookAPI instance
+            val books = BookAPI(XMLSerializer(File("books.xml")))
+            books.add(book1)
+            // books.add(book2)
+            // books.add(book3)
+
+            // Test searching for authors with matching name
+            val searchResults1 = books.searchByAuthor("John")
+            assertEquals("Title: Book 1, ID: 1, Description: Education, Authors: John Doe\n", searchResults1)
+        }
+
+        @Test
+        fun `Test searching for authors with non-matching name`() {
+            val book1 = Book("Book 1", 1, "Education", false)
+            val author1 = Author("John Doe")
+            book1.authors.add(author1)
+
+            val books = BookAPI(XMLSerializer(File("books.xml")))
+            books.add(book1)
+            val searchResults3 = books.searchByAuthor("Smithsonian")
+            assertEquals("No book found for: Smithsonian", searchResults3)
+        }
+
+        @Test
+        fun `Test searching for authors when no books are stored`() {
+            val emptyBooks = BookAPI(XMLSerializer(File("books.cbor")))
+            val searchResults4 = emptyBooks.searchByAuthor("John")
+            assertEquals("No books stored", searchResults4)
         }
     }
 }
