@@ -21,21 +21,21 @@ fun mainMenu(): Int {
     return readNextInt(
         """
          > ——————————————————————————————————
-         > |       LIBRARY MANAGER APP      |
+         > |      LIBRARY MANAGER APP       |
          > ——————————————————————————————————
-         > | BOOK MENU                      |
+         > |           BOOK MENU            |
          > |   1) Add a Book                |
-         > |   2) List Books                |
-         > |   3) Update a Book             |
-         > |   4) Delete a Book             |
-         > |   5) Archive a Book            |
+         > |   2) Update a Book             |
+         > |   3) Delete a Book             |
+         > |   4) Archive a Book            |
          > |   5) Search title of a Book    |
+         > |   6) More Options              |
          > |   20) Save books               |
          > |   21) Load books               |
          > ——————————————————————————————————
          > |   0) Exit                      |
          > ——————————————————————————————————
-         >   ==>> """.trimMargin(">")
+         >  Enter Option: """.trimMargin(">")
     )
 }
 
@@ -43,16 +43,18 @@ fun subMenu(): Int {
     return readNextInt(
         """ 
          > —————————————————————————————————
-         > |         LIST BOOKS APP         |
+         > |       MORE OPTIONS MENU        |
          > —————————————————————————————————
-         > |       List Book SUB-MENU       |
+         > |      LIST BOOK SUB-MENU        |
          > |   1) List all books            |
          > |   2) List active books         |
          > |   3) List archived books       |
-         > —————————————————————————————————
-         > |        EXTRA FEATURES 
          > |   4) List books by ID          |
+         > —————————————————————————————————
+         > |        EXTRA FEATURES          |
          > |   5) Add author to book        |
+         > |   6) Search by author to book  |
+         > |   7) Counts books by author    |
          > |   0) Exit                      |
          > —————————————————————————————————
          >     Enter Option: """.trimMargin(">")
@@ -65,11 +67,11 @@ fun runMenu() {
         val option = mainMenu()
         when (option) {
             1 -> addBook()
-            2 -> listBooksSubmenu()
-            3 -> updateBook()
-            4 -> deleteBook()
-            5 -> archiveBook()
-            6 -> SearchBooks()
+            2 -> updateBook()
+            3 -> deleteBook()
+            4 -> archiveBook()
+            5 -> SearchBooks()
+            6 -> moreOptionsSubmenu()
             0 -> exitApp()
             20 -> save()
             21 -> load()
@@ -78,7 +80,7 @@ fun runMenu() {
     } while (true)
 }
 
-fun listBooksSubmenu() {
+fun moreOptionsSubmenu() {
     do {
         val option = subMenu()
         when (option) {
@@ -86,16 +88,9 @@ fun listBooksSubmenu() {
             2 -> listActiveBooks()
             3 -> listArchivedBooks()
             4 -> println(bookAPI.listBooksBySelectedId(readNextInt("Please Enter a Book ID to List: ")))
-            /* This code block is adding an author to a book in the library management system. It prompts the user to enter
-            the book title and author name, creates an `Author` object with the entered author name, and then calls the
-            `addAuthorToBook` method of the `BookAPI` object to add the author to the book with the entered title. */
-            5 -> {
-                val bookTitle = readNextLine("Please enter the book title: ")
-                val authorName = readNextLine("Please enter the author name: ")
-                val author = Author(authorName) // Create an Author object with the entered author name
-                bookAPI.addAuthorToBook(bookTitle, author)
-            }
+            5 -> addAuthor()
             6 -> searchAuthor()
+            7 -> countAuthorBooks()
             0 -> runMenu()
             else -> println("Invalid option entered: $option")
         }
@@ -125,7 +120,7 @@ fun listBooks() {
 fun updateBook() {
     listBooks()
     if (bookAPI.numberOfBooks() > 0) {
-        // only ask the user to choose the note if notes exist
+        // only ask the user to choose the note if books exist
         val indexToUpdate = readNextInt("Enter the index of the book to update: ")
         if (bookAPI.isValidIndex(indexToUpdate)) {
             val bookTitle = readNextLine("Enter a book title : ")
@@ -139,7 +134,7 @@ fun updateBook() {
                 println("Update Failed")
             }
         } else {
-            println("There are no notes for this index number")
+            println("There are no books for this index number")
         }
     }
 }
@@ -196,7 +191,7 @@ fun archiveBook() {
             println("Index of book is invalid")
         }
     } else {
-        println("There is no active notes")
+        println("There is no active books")
     }
 }
 
@@ -229,4 +224,23 @@ fun searchAuthor() {
     } else {
         println(searchResults)
     }
+}
+
+/**
+ * The function adds an author to a book in a book API.
+ */
+fun addAuthor() {
+    val bookTitle = readNextLine("Please enter the book title: ")
+    val authorName = readNextLine("Please enter the author name: ")
+    val author = Author(authorName) // Create an Author object with the entered author name
+    bookAPI.addAuthorToBook(bookTitle, author)
+}
+
+/**
+ * This function prompts the user to enter an author name and then calls a book API to count the number of books written by
+ * that author.
+ */
+fun countAuthorBooks() {
+    val authorName = readNextLine("Please enter the author name: ")
+    bookAPI.countBooksByAuthor(authorName)
 }

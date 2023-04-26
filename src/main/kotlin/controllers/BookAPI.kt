@@ -29,6 +29,7 @@ class BookAPI(serializerType: Serializer) {
     private fun formatListString(booksToFormat: List<Book>): String {
         val sb = StringBuilder()
         for ((index, book) in booksToFormat.withIndex()) {
+            sb.append("${index + 0}: ")
             sb.append("Title: ${book.bookTitle}, ")
             sb.append("ID: ${book.bookId}, ")
             sb.append("Description: ${book.bookDesc}, ")
@@ -273,5 +274,18 @@ class BookAPI(serializerType: Serializer) {
             if (listOfBooks == "") "No book found for: $searchString"
             else listOfBooks
         }
+    }
+
+    fun countBooksByAuthor(authorName: String): Int {
+        var count = 0
+        for (book in books) {
+            for (item in book.authors) {
+                if (item.authorName.equals(authorName, ignoreCase = true)) {
+                    count++
+                }
+            }
+        }
+        println("There are $count books associated with $authorName.")
+        return count
     }
 }
