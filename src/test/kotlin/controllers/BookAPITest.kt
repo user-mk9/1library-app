@@ -447,7 +447,7 @@ class BookAPITest {
 
             // Test searching for authors with matching name
             val searchResults1 = books.searchByAuthor("John")
-            assertEquals("Title: Book 1, ID: 1, Description: Education, Authors: John Doe\n", searchResults1)
+            assertEquals("0: Title: Book 1, ID: 1, Description: Education, Authors: John Doe\n", searchResults1)
         }
 
         @Test
@@ -467,6 +467,25 @@ class BookAPITest {
             val emptyBooks = BookAPI(XMLSerializer(File("books.cbor")))
             val searchResults4 = emptyBooks.searchByAuthor("John")
             assertEquals("No books stored", searchResults4)
+        }
+    }
+
+    @Nested
+    inner class CountBooksByAuthor {
+        @Test
+        fun `countBooksByAuthor should return correct count for existing author`() {
+            val authorName = "Test Author"
+            val book1 = Book("Book 1", 1, "Test", false, mutableListOf(Author(authorName)))
+            val book2 = Book("Book 2", 2, "Test", false, mutableListOf(Author(authorName)))
+            popBooks!!.add(book1)
+            popBooks!!.add(book2)
+            assertEquals(2, popBooks!!.countBooksByAuthor(authorName))
+        }
+
+        @Test
+        fun `countBooksByAuthor should return 0 for non-existing author`() {
+            val authorName = "Non-existing Author"
+            assertEquals(0, popBooks!!.countBooksByAuthor(authorName))
         }
     }
 }
