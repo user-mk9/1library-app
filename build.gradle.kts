@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20-RC"
     // Plugin for Dokka - KDoc generating tool
     id("org.jetbrains.dokka") version "1.6.10"
     jacoco
@@ -34,6 +35,9 @@ dependencies {
 
     // CBOR Gradle
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.0")
+
+    //YAML
+    implementation("org.yaml:snakeyaml:1.28")
 }
 
 tasks.withType<KotlinCompile> {
@@ -57,6 +61,8 @@ tasks.jar {
     })
 }
 
+// This plugin checks the versions of the specified dependencies against the constraints specified in the
+// `versionCheckerOptions` block and generates a report of any dependencies that do not meet the constraints.
 versionCheckerOptions {
     "com.squareup.okhttp3:logging-interceptor" lessThan "4.0"
 }

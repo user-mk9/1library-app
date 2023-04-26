@@ -6,6 +6,7 @@
       <bookDesc>Education</bookDesc>
       <isBookArchived>false</isBookArchived>
       <authors/>
+      <lastItemId>0</lastItemId>
     </models.Book>
     <models.Book>
       <bookTitle>Sample Book 3</bookTitle>
@@ -13,6 +14,7 @@
       <bookDesc>Mystery</bookDesc>
       <isBookArchived>false</isBookArchived>
       <authors/>
+      <lastItemId>0</lastItemId>
     </models.Book>
   </list>
 </object-stream>

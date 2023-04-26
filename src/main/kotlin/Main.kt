@@ -12,6 +12,7 @@ private val logger = KotlinLogging.logger {}
 // private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
 //private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
 private val bookAPI = BookAPI(CBORSerializer(File("books.cbor")))
+
 fun main(args: Array<String>) {
     runMenu()
 }
@@ -85,12 +86,16 @@ fun listBooksSubmenu() {
             2 -> listActiveBooks()
             3 -> listArchivedBooks()
             4 -> println(bookAPI.listBooksBySelectedId(readNextInt("Please Enter a Book ID to List: ")))
+            /* This code block is adding an author to a book in the library management system. It prompts the user to enter
+            the book title and author name, creates an `Author` object with the entered author name, and then calls the
+            `addAuthorToBook` method of the `BookAPI` object to add the author to the book with the entered title. */
             5 -> {
                 val bookTitle = readNextLine("Please enter the book title: ")
                 val authorName = readNextLine("Please enter the author name: ")
                 val author = Author(authorName) // Create an Author object with the entered author name
                 bookAPI.addAuthorToBook(bookTitle, author)
             }
+            6 -> searchAuthor()
             0 -> runMenu()
             else -> println("Invalid option entered: $option")
         }
@@ -114,6 +119,9 @@ fun listBooks() {
     println(bookAPI.listAllBooks())
 }
 
+/**
+ * The function updates a book in a list of books by taking user input for the book's title, ID, and description.
+ */
 fun updateBook() {
     listBooks()
     if (bookAPI.numberOfBooks() > 0) {
@@ -172,6 +180,9 @@ fun load() {
     }
 }
 
+/**
+ * The function archives an active book by its index if it exists.
+ */
 fun archiveBook() {
     // only list active books, as we don't need to archive books that have been done so already
     println(bookAPI.listActiveBooks())
@@ -202,6 +213,19 @@ fun SearchBooks() {
     val searchResults = bookAPI.searchByTitle(searchTitle)
     if (searchTitle.isEmpty()) {
         println("No books found")
+    } else {
+        println(searchResults)
+    }
+}
+
+/**
+ * The function searches for books by author and displays the results.
+ */
+fun searchAuthor() {
+    val searchAuthor = readNextLine("Enter the author to search by: ")
+    val searchResults = bookAPI.searchByAuthor(searchAuthor)
+    if (searchResults.isEmpty()) {
+        println("No author found")
     } else {
         println(searchResults)
     }

@@ -1,0 +1,4 @@
+- !!models.Book {bookArchived: false, bookDesc: Education, bookId: 1, bookTitle: Sample
+    Book 1}
+- !!models.Book {bookArchived: false, bookDesc: Mystery, bookId: 2, bookTitle: Sample
+    Book 3}
