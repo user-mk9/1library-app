@@ -6,7 +6,7 @@ This application was built using Intellij and programmed in the Kotlin.
 
 ## Description
 
-Assignment for Software Development Tools I developed a Library Management
+For an assignment for Software Development Tools I developed a Library Management
 app with Kotlin with CRUD functionality.
 
 
@@ -94,4 +94,4 @@ Features in this app includes:
 
 - Menu items for Adding, Listing, Updating and Deleting a Book. No Book model is added yet; the menu structure is a skeleton.
 - Logging capabilities are added via MicroUtils Kotlin-Logging.
-- aScannerInput utility is included for rebust user I/O.
+- a ScannerInput utility is included for rebust user I/O.
