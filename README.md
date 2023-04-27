@@ -54,7 +54,7 @@ app with Kotlin with CRUD functionality.
 
 ## Authors
 
-Contributors names and contact info
+Contributor names and contact info
 
 Mubarak Al
 [@user-mk9](https://github.com/user-mk9)
@@ -79,7 +79,6 @@ Features in this app includes:
 - Ability to Update, Delete, and Archive Books in the Collection
 - Persistence of books to/from XML/JSON
 - Listing of all, active or archived books.
-
 
 Version 2.0
 
