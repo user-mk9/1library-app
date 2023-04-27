@@ -9,6 +9,27 @@ This application was built using Intellij and programmed in the Kotlin.
 For an assignment for Software Development Tools I developed a Library Management
 app with Kotlin with CRUD functionality.
 
+## Technologies
+Kotlin version 1.7.10
+
+## Requirements
+
+    Dependencies for logging -
+    io.github.microutils:kotlin-logging:2.1.23
+    org.slf4j:slf4j-simple:1.7.36
+
+    For Streaming to XML and JSON -
+    com.thoughtworks.xstream:xstream:1.4.18
+    org.codehaus.jettison:jettison:1.4.1
+
+    Dokka Site from KDoc - 
+    org.jetbrains.dokka:dokka-gradle-plugin:1.6.10
+
+    CBOR Gradle - 
+    org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.0
+
+    YAML - 
+    org.yaml:snakeyaml:1.28
 
 ## Running Application
 
