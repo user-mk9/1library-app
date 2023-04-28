@@ -100,6 +100,10 @@ fun moreOptionsSubmenu() {
 fun addBook() {
     val bookTitle = readNextLine("Enter the book title : ")
     val bookId = readNextInt("Enter book ID (1(Education), 2(Sports), 3(Fiction), 4(Other)) : ")
+    if (bookId < 1 || bookId > 4) {
+        println("Invalid book ID entered: $bookId. Please enter a number between 1 and 4.")
+        return
+    }
     val bookDesc = readNextLine("Enter the book Description : ")
     val newAdd = bookAPI.add(Book(bookTitle, bookId, bookDesc, false))
 
