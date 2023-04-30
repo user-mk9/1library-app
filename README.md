@@ -82,6 +82,11 @@ Mubarak Al
 
 ## Version History
 
+Version 5.0 
+
+- Adding new functionality search by author
+- New functionality to count how many books associated with author
+
 Version 4.0
 
 Features in this app includes:
