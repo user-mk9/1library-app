@@ -1,7 +1,7 @@
 package persistance
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.cbor.*
+import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import models.Book

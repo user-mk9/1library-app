@@ -8,7 +8,7 @@ plugins {
     jacoco
     // Plugin for Ktlint
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
-    //Plugin for version checker
+    // Plugin for version checker
     id("org.sirekanyan.version-checker") version "1.0.2"
     application
 }
@@ -36,7 +36,7 @@ dependencies {
     // CBOR Gradle
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.0")
 
-    //YAML
+    // YAML
     implementation("org.yaml:snakeyaml:1.28")
 }
 

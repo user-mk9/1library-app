@@ -10,7 +10,7 @@ import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
 // private val bookAPI = BookAPI(XMLSerializer(File("books.xml")))
-//private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
+// private val bookAPI = BookAPI(JSONSerializer(File("books.json")))
 private val bookAPI = BookAPI(CBORSerializer(File("books.cbor")))
 
 fun main(args: Array<String>) {

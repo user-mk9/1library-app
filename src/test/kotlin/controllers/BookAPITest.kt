@@ -377,7 +377,6 @@ class BookAPITest {
     @Nested
     inner class AddAuthorToBook {
 
-
         /**
          * The function tests if adding an author to a book adds the author to the book's authors list in Kotlin.
          *
@@ -398,7 +397,6 @@ class BookAPITest {
         }
 
         private fun assertTrue(result: Unit) {
-
         }
 
         /**

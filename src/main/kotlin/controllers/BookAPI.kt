@@ -239,13 +239,16 @@ class BookAPI(serializerType: Serializer) {
      * @param bookTitle A String representing the title of the book to which the author needs to be added.
      * @param author The `author` parameter is an instance of the `Author` class, representing the author that we want to
      * add to a book.
+     * @param find search for the book with the specified title
+     * @param let the code block where we add the author to the book's list of authors and print a success message
+     * @param find  print an error message
+     *
      */
     fun addAuthorToBook(bookTitle: String, author: Author) {
-        val book = books.find { it.bookTitle == bookTitle }
-        if (book != null) {
+        books.find { it.bookTitle == bookTitle }?.let { book ->
             book.authors.add(author)
             println("Author added successfully to book: $bookTitle")
-        } else {
+        } ?: run {
             println("Book not found with title: $bookTitle")
         }
     }
