@@ -236,7 +236,7 @@ fun searchAuthor() {
 fun addAuthor() {
     val bookTitle = readNextLine("Please enter the book title: ")
     val authorName = readNextLine("Please enter the author name: ")
-    val author = Author(authorName) // Create an Author object with the entered author name
+    val author = Author(authorName) // Create an Author object with the entered author namee
     bookAPI.addAuthorToBook(bookTitle, author)
 }
 
